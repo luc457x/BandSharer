@@ -1,0 +1,51 @@
+services:
+  honeygain:
+    container_name: $COMPOSE_PROJECT_NAME-honeygain
+    image: honeygain/honeygain:latest
+    environment:
+      - HONEYGAIN_DUMMY= ''
+    command: -tou-accept -email $HONEYGAIN_EMAIL -pass $HONEYGAIN_PASSWD -device $DEVICE_NAME
+    restart: unless-stopped
+    cpus: ${CPU_LIMIT_MEDIUM}
+    mem_reservation: ${MEM_RESERV_MEDIUM}
+    mem_limit: ${MEM_LIMIT_MEDIUM}
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "50m" 
+
+  iproyal:
+    container_name: $COMPOSE_PROJECT_NAME-iproyal
+    image: iproyal/pawns-cli:latest
+    environment:
+      - IPROYALPAWNS_DUMMY= ''
+    command: -accept-tos -email=$IPROYALPAWNS_EMAIL -password=$IPROYALPAWNS_PASSWD -device-name=$DEVICE_NAME -device-id=id_$DEVICE_NAME
+    restart: unless-stopped
+    cpus: ${CPU_LIMIT_LITTLE}
+    mem_reservation: ${MEM_RESERV_LITTLE}
+    mem_limit: ${MEM_LIMIT_LITTLE}
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "50m"
+
+  mysterium:
+    container_name: $COMPOSE_PROJECT_NAME-mystnode
+    image: mysteriumnetwork/myst:latest
+    environment:
+      - MYSTNODE_DUMMY= ''
+    command: service --agreed-terms-and-conditions
+    cap_add:
+          - NET_ADMIN
+    ports:
+          - ${MYSTNODE_DASHBOARD_PORT}:4449
+    volumes:
+          - ./.data/mysterium-node:/var/lib/mysterium-node
+    restart: unless-stopped 
+    cpus: ${CPU_LIMIT_HUGE}
+    mem_reservation: ${MEM_RESERV_HUGE}
+    mem_limit: ${MEM_LIMIT_HUGE}
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "50m" 
