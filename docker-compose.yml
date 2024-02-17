@@ -49,21 +49,3 @@ services:
       driver: "json-file"
       options:
         max-size: "50m"
-
-    earnapp:
-      container_name: $COMPOSE_PROJECT_NAME_earnapp
-      hostname: ${DEVICE_NAME}_earnapp
-      image: fazalfarhan01/earnapp:lite
-      environment:
-         - EARNAPP_UUID=$EARNAPP_DEVICE_UUID
-         - EARNAPP_TERM="yes"
-       volumes:
-         - earnapp-data:/etc/earnapp
-       restart: unless-stopped
-       cpus: ${CPU_LIMIT_MEDIUM}
-       mem_reservation: ${MEM_RESERV_LITTLE}
-       mem_limit: ${MEM_LIMIT_MEDIUM}
-       logging:
-         driver: "json-file"
-         options:
-           max-size: "50m"
