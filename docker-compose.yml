@@ -7,7 +7,7 @@ services:
     command: -tou-accept -email $HONEYGAIN_EMAIL -pass $HONEYGAIN_PASSWD -device $DEVICE_NAME
     restart: unless-stopped
     cpus: ${CPU_LIMIT_MEDIUM}
-    mem_reservation: ${MEM_RESERV_MEDIUM}
+    mem_reservation: ${MEM_RESERV_LITTLE}
     mem_limit: ${MEM_LIMIT_MEDIUM}
     logging:
       driver: "json-file"
@@ -43,7 +43,7 @@ services:
           - ./.data/mysterium-node:/var/lib/mysterium-node
     restart: unless-stopped 
     cpus: ${CPU_LIMIT_HUGE}
-    mem_reservation: ${MEM_RESERV_BIG}
+    mem_reservation: ${MEM_RESERV_MEDIUM}
     mem_limit: ${MEM_LIMIT_HUGE}
     logging:
       driver: "json-file"
