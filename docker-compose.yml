@@ -43,9 +43,24 @@ services:
           - ./.data/mysterium-node:/var/lib/mysterium-node
     restart: unless-stopped 
     cpus: ${CPU_LIMIT_HUGE}
-    mem_reservation: ${MEM_RESERV_HUGE}
+    mem_reservation: ${MEM_RESERV_BIG}
     mem_limit: ${MEM_LIMIT_HUGE}
     logging:
       driver: "json-file"
       options:
         max-size: "50m" 
+
+  bitping:
+    container_name: $COMPOSE_PROJECT_NAME-bitping
+    hostname: bitping
+    image: bitping/bitpingd:latest
+    restart: unless-stopped
+    cpus: ${CPU_LIMIT_BIG}
+    mem_reservation: ${MEM_RESERV_MEDIUM}
+    mem_limit: ${MEM_LIMIT_BIG}
+    volumes:
+      - ./.data/bitping:/root/.bitpingd
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "50m"
